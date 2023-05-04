@@ -20,7 +20,7 @@ func getScaffoldCommand(logger log.Logger) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "scaffold",
 		Short: "Scaffold a new project",
-		Long: `Scaffold a new project based on the type of project you want to create.
+		Long: `Scaffold a new project based on the langauge and type of project you want to create.
 
 Usage:
   create-ddis-app scaffold --name=<project-name> --type=<project-type> --port=<port> --telemetry=<telemetry> --metrics=<metrics> --controller=<controller>
@@ -45,7 +45,7 @@ Example:
 	cmd.Flags().BoolVar(&Telemetry, "telemetry", false, "Telemetry of the project: true or false")
 	cmd.Flags().BoolVar(&Metrics, "metrics", false, "Metrics of the project: true or false")
 	cmd.Flags().StringVar(&Controller, "controller", "", "Controller of the project: Deployment (default), DaemonSet, StatefulSet, CronJob, Job, Pod (python-batch)")
-	cmd.Flags().BoolVar(&Verbose, "verbose", true, "Verbose of the project: true (default) or false")
+	cmd.Flags().BoolVar(&Verbose, "verbose", true, "Verbose logs: true (default) or false")
 
 	err := cmd.MarkFlagRequired("name")
 	if err != nil {

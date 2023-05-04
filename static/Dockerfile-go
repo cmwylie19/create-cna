@@ -1,8 +1,7 @@
-# Stage 1
 FROM scratch
 
-LABEL description="NAME" \
+LABEL description="<APP_NAME>" \
       maintainer="Data, Development, Insights & Strategy ddis-team@redhat.com"
 
 
-COPY ./NAME /
+COPY ./<APP_NAME> /
