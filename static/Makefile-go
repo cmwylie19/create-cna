@@ -1,0 +1,36 @@
+# Makefile for building the go app + docker image.
+SHELL=bash
+DOCKER_USERNAME=<YOUR_USERNAME>
+ARCH=amd64
+
+
+
+
+
+IMAGE ?= ${DOCKER_USERNAME}/APP:${ARCH}
+
+#---------------------------
+# Build the secret-watcher binary
+
+.PHONY: compile/app
+build/secret-watcher: $(shell find . -name '*.go')
+	GOARCH=${ARCH} GOOS=linux go build -ldflags="-s -w" -o build/$@ .
+
+
+#---------------------------
+# Build the docker image
+
+.PHONY: build/image
+build/image: build/secret-watcher
+	docker build -t $(IMAGE) build/
+	rm build/secret-watcher
+
+#--------------------------------
+# Push the docker image to dockerhub
+.PHONY: push-image
+push-image: build/image
+	docker push $(IMAGE)
+
+#--------------------------------
+all: build/secret-watcher build/image push-image
+	@echo "Done building secret-watcher for ${ARCH}"

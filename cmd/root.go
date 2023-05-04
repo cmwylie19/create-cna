@@ -6,12 +6,11 @@ package cmd
 import (
 	"os"
 
-	"github.com/cmwylie19/create-ddis-app/internal/log"
-
+	"github.com/cmwylie19/create-ddis-app/pkg/log"
 	"github.com/spf13/cobra"
 )
 
-func getRootCommand(logger log.Logger) *cobra.Command {
+func GetRootCommand(logger log.Logger) *cobra.Command {
 	rootCmd.CompletionOptions.DisableDefaultCmd = true
 	rootCmd.AddCommand(getScaffoldCommand(logger))
 	return rootCmd
@@ -24,10 +23,10 @@ var rootCmd = &cobra.Command{
 	Long: `A tool to simplify, scaffold, and automate DDIS repositories and applications
 allowing users to focus on delivering value while avoiding cumbersome config.
 
-Create DDIS App is a CLI app that scaffolds applications
-based on industry best practices.
-This application is a tool to generate the needed files
-and folders to quickly create an  application.
+Create DDIS App is a CLI that scaffolds applications
+based on industry best practices in order to quickly
+deploy cloud native apps instrumented for Kubernetes, 
+metric, and telemetry collection.
 
 usage:
 create-ddis-app help 

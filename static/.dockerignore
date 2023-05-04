@@ -1,0 +1,23 @@
+node_modules/
+*.md
+Makefile
+vendor/
+
+# Exclude "build-time" ignore files.
+.dockerignore
+.gcloudignore
+
+# Exclude git history and configuration.
+.gitignore
+
+.git
+
+**/*.tar.gz
+**/*.tgz
+**/*.iso
+**/*.raw
+env/*/work-*
+
+ci/
+k8s/
+manifests/

@@ -4,21 +4,22 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package main
 
 import (
-	"github.com/cmwylie19/create-ddis-app/pkg/log"
+	"os"
+
 	"github.com/cmwylie19/create-ddis-app/cmd"
+	"github.com/cmwylie19/create-ddis-app/pkg/log"
 )
 
-var logger log.Logger
+var logger *log.Log
 
 func main() {
-	cmd.getRootCommand(logger).Execute(); err != nil {
+	if err := cmd.GetRootCommand(logger).Execute(); err != nil {
 		logger.Infof("Error executing command: %v", err)
 		os.Exit(1)
 	}
 }
-
 func init() {
-	logger = log.Logger{
+	logger = &log.Log{
 		Debug: true,
 	}
 }

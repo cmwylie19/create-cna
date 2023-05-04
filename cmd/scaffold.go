@@ -1,7 +1,8 @@
 package cmd
 
 import (
-	"github.com/cmwylie19/create-ddis-app/interal/log"
+	"github.com/cmwylie19/create-ddis-app/pkg/log"
+	"github.com/cmwylie19/create-ddis-app/pkg/scaffold"
 	"github.com/spf13/cobra"
 )
 
@@ -12,9 +13,10 @@ var (
 	Telemetry  bool
 	Metrics    bool
 	Controller string
+	Verbose    bool
 )
 
-func getScaffoldCommand(log log.Logger) *cobra.Command {
+func getScaffoldCommand(logger log.Logger) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "scaffold",
 		Short: "Scaffold a new project",
@@ -22,30 +24,43 @@ func getScaffoldCommand(log log.Logger) *cobra.Command {
 
 Usage:
   create-ddis-app scaffold --name=<project-name> --type=<project-type> --port=<port> --telemetry=<telemetry> --metrics=<metrics> --controller=<controller>
+
+Example:
+  create-ddis-app scaffold --name=go-server --type=go --port=8080 --telemetry=true --metrics=true --controller=deployment
+
+  create-ddis-app scaffold --name=go-server --type=go --port=8080 --telemetry=true --metrics=true --controller=deployment --verbose=false
+
+  create-ddis-app scaffold --name=go-server --type=go --port=8080 --telemetry=true --metrics=true --controller=deployment
 `,
 		Run: func(cmd *cobra.Command, args []string) {
+			// call create scaffold
+			var logg log.Logger = &log.Log{Debug: Verbose}
+			scaffold.NewScaffold(Name, Type, Port, Controller, Telemetry, Metrics, Verbose, logg).Create()
+
 		},
 	}
 	cmd.Flags().StringVar(&Name, "name", "", "Name of the project")
-	cmd.Flags().StringVar(&Type, "type", "", "Type of the project")
-	cmd.Flags().StringVar(&Port, "port", "", "Port of the project")
-	cmd.Flags().BoolVar(&Telemetry, "telemetry", false, "Telemetry of the project")
-	cmd.Flags().BoolVar(&Metrics, "metrics", false, "Metrics of the project")
-	cmd.Flags().StringVar(&Controller, "controller", "", "Controller of the project")
+	cmd.Flags().StringVar(&Type, "type", "", "Type of the project: go, rust, python-batch, python, frontend")
+	cmd.Flags().StringVar(&Port, "port", "", "Port of the project: 8080")
+	cmd.Flags().BoolVar(&Telemetry, "telemetry", false, "Telemetry of the project: true or false")
+	cmd.Flags().BoolVar(&Metrics, "metrics", false, "Metrics of the project: true or false")
+	cmd.Flags().StringVar(&Controller, "controller", "", "Controller of the project: Deployment (default), DaemonSet, StatefulSet, CronJob, Job, Pod (python-batch)")
+	cmd.Flags().BoolVar(&Verbose, "verbose", true, "Verbose of the project: true (default) or false")
+
 	err := cmd.MarkFlagRequired("name")
 	if err != nil {
-		log.Errorf("Name required: %s", err.Error())
+		logger.Errorf("Name required: %s", err.Error())
 	}
 
 	err = cmd.MarkFlagRequired("type")
 	if err != nil {
-		log.Errorf("Type required: %s", err.Error())
+		logger.Errorf("Type required: %s", err.Error())
 	}
 
 	if Type != "python-batch" {
 		err = cmd.MarkFlagRequired("port")
 		if err != nil {
-			log.Errorf("Port required: %s", err.Error())
+			logger.Errorf("Port required: %s", err.Error())
 		}
 	}
 	return cmd
