@@ -3,13 +3,13 @@ package helpers
 import (
 	"errors"
 	"os"
+	"strings"
+
+	"github.com/cmwylie19/create-ddis-app/static"
 )
 
-// //go:embed static/Makefile-go
+// //go:embed /static/Makefile-go
 // var Makefile_go []byte
-
-// //go:embed static/Dockerfile-go
-// var Dockerfile_go []byte
 
 // //go:embed static/.dockerignore
 // var Dockerignore []byte
@@ -31,11 +31,25 @@ func CreateDir(path string) error {
 	}
 	return err
 }
+func ByteReplace(file []byte, old, new string) []byte {
+	return []byte(strings.ReplaceAll(string(file), old, new))
+}
+func CreateDockerfile(path, _type, name string) error {
+	var err error
+	var dockerfile []byte
 
-// func CreateDockerfile(path, nane, _type string) error {
-// 	var dockerfile []byte
+	switch _type {
+	case "go":
+		// Convert to String, Replace <APP_NAME> with name, convert back to []byte
+		dockerfile = ByteReplace(static.Dockerfile_go, "<APP_NAME>", name)
+	}
+	err = os.WriteFile(path+"/Dockerfile", dockerfile, 0644)
+	if err != nil {
+		return err
+	}
+	return err
+}
 
-// }
 // func CreateMainfile(path, nane, _type string) error {
 // 	var mainfile []byte
 

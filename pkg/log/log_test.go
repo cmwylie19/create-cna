@@ -10,7 +10,7 @@ import (
 
 func TestPrint(t *testing.T) {
 	var buf bytes.Buffer
-	logger := Logger{}
+	logger := Log{}
 
 	expectedOutput := "create-ddis-app: success!\n"
 	input := "success!"
@@ -29,7 +29,7 @@ func TestPrint(t *testing.T) {
 
 func TestPrintf(t *testing.T) {
 	var buf bytes.Buffer
-	logger := Logger{}
+	logger := Log{}
 
 	expectedOutput := "create-ddis-app: %s!\n"
 	format := "create-ddis-app: %s\n"
@@ -49,7 +49,7 @@ func TestPrintf(t *testing.T) {
 
 func TestLogger_Infof(t *testing.T) {
 	var buf bytes.Buffer
-	logger := Logger{Debug: true}
+	logger := Log{Debug: true}
 	log.SetOutput(&buf)
 
 	logger.Infof("test %d", 123)
@@ -61,7 +61,7 @@ func TestLogger_Infof(t *testing.T) {
 
 func TestLogger_Info(t *testing.T) {
 	var buf bytes.Buffer
-	logger := Logger{Debug: true}
+	logger := Log{Debug: true}
 	log.SetOutput(&buf)
 
 	logger.Infof("test 123")
@@ -73,7 +73,7 @@ func TestLogger_Info(t *testing.T) {
 
 func TestLogger_Warnf(t *testing.T) {
 	var buf bytes.Buffer
-	logger := Logger{}
+	logger := Log{}
 
 	expectedOutput := "create-ddis-app: warning - this is a warning"
 	format := "%s"
@@ -93,7 +93,7 @@ func TestLogger_Warnf(t *testing.T) {
 
 func TestLogger_Warn(t *testing.T) {
 	var buf bytes.Buffer
-	logger := Logger{}
+	logger := Log{}
 
 	expectedOutput := "create-ddis-app: warning - this is a warning"
 	input := "this is a warning"
@@ -112,7 +112,7 @@ func TestLogger_Warn(t *testing.T) {
 
 func TestLogger_Errorf(t *testing.T) {
 	var buf bytes.Buffer
-	logger := Logger{}
+	logger := Log{}
 
 	expectedOutput := "create-ddis-app: error - bad thing happened\n"
 	format := "%s"
@@ -132,7 +132,7 @@ func TestLogger_Errorf(t *testing.T) {
 
 func TestLogger_Error(t *testing.T) {
 	var buf bytes.Buffer
-	logger := Logger{}
+	logger := Log{}
 
 	expectedOutput := "create-ddis-app: error - bad thing happened\n"
 	input := "bad thing happened"

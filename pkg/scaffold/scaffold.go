@@ -51,6 +51,12 @@ func (s *Scaffold) Create() {
 	if err != nil {
 		s.Logger.Errorf("Error creating Docker (Build) directory: %s", err.Error())
 	}
+
+	// create Dockerfile
+	err = helpers.CreateDockerfile(s.Name+"/build", s.Type, s.Name)
+	if err != nil {
+		s.Logger.Errorf("Error creating Dockerfile: %s", err.Error())
+	}
 	s.Logger.Infof("Created build directory: %s", s.Name)
 
 	s.Logger.Print("Scaffolded project successfully!")
