@@ -1,0 +1,13 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: go-server
+  namespace: go-server
+  labels:
+    app: blue
+spec:
+  selector:
+    matchLabels:
+      app: go-server
+  endpoints:
+  - port: http

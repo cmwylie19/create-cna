@@ -15,3 +15,6 @@ var Gitignore []byte
 
 //go:embed apps/main.txt
 var Main_go []byte
+
+//go:embed manifests/servicemonitor.yaml
+var Servicemonitor []byte
