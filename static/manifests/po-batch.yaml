@@ -2,8 +2,8 @@ apiVersion: v1
 kind: Namespace
 metadata:
   creationTimestamp: null
-  name: go-server
-  namespace: go-server
+  name: <APP_NAME>
+  namespace: <APP_NAME>
 spec: {}
 ---
 apiVersion: v1
@@ -11,12 +11,12 @@ kind: Pod
 metadata:
   creationTimestamp: null
   labels:
-    run: go-server
-  name: go-server
+    run: <APP_NAME>
+  name: <APP_NAME>
 spec:
   containers:
-  - image: docker.io/cmwylie19/go-server:0.0.1
-    name: go-server
+  - image: <APP_IMAGE>
+    name: <APP_NAME>
     securityContext:
       allowPrivilegeEscalation: false
     # Assumption - it is a batch job; it will take many resources

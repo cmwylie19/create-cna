@@ -95,7 +95,7 @@ func (s *Scaffold) Create() {
 	s.Logger.Info("Created ServiceMonitor.")
 
 	// create Kubernetes manifests
-	err = helpers.CreateKubernetesManifests(s.Name+"/manifests/k8s", s.Controller, s.Port, s.Name)
+	err = helpers.CreateKubernetesManifests(s.Name+"/manifests/k8s", s.Type, s.Controller, s.Port, s.Name)
 	if err != nil {
 		s.Logger.Errorf("Error creating kubernetes manifests: %s", err.Error())
 	}

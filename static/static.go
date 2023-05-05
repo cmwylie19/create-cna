@@ -22,6 +22,12 @@ var Servicemonitor []byte
 //go:embed manifests/deploy-app.yaml
 var Deploy_app []byte
 
+//go:embed manifests/deploy-app-binary.yaml
+var Deploy_app_binary []byte
+
+//go:embed manifests/ds-app-binary.yaml
+var DS_app_binary []byte
+
 //go:embed manifests/ds-app.yaml
 var DS_app []byte
 

@@ -107,19 +107,32 @@ func CreateServiceMonitor(path, name string) error {
 	return err
 }
 
-func CreateKubernetesManifests(path, controller, port, name string) error {
+func CreateKubernetesManifests(path, _type, controller, port, name string) error {
 	var err error
 	var kubernetes []byte
 
+	// determine which Kubernetes manifests to create based on type
+	switch strings.ToLower(_type) {
+	case "go":
+		kubernetes = static.Deploy_app_binary
+	case "rust":
+		kubernetes = static.DS_app_binary
+	case "python-batch":
+		kubernetes = static.PO_batch
+	case "python":
+		kubernetes = static.Deploy_app
+	}
+
+	// determine type of controller
 	switch strings.ToLower(controller) {
 	case "deployment":
 		// replace <APP_NAME> with name and <APP_PORT> with port
-		kubernetes = ByteReplace(ByteReplace(static.Deploy_app, "<APP_NAME>", name), "<APP_PORT>", port)
+		kubernetes = ByteReplace(ByteReplace(kubernetes, "<APP_NAME>", name), "<APP_PORT>", port)
 	case "daemonset":
 		// replace <APP_NAME> with name and <APP_PORT> with port
-		kubernetes = ByteReplace(ByteReplace(static.DS_app, "<APP_NAME>", name), "<APP_PORT>", port)
+		kubernetes = ByteReplace(ByteReplace(kubernetes, "<APP_NAME>", name), "<APP_PORT>", port)
 	case "pod":
-		kubernetes = ByteReplace(static.PO_batch, "<APP_NAME>", name)
+		kubernetes = ByteReplace(kubernetes, "<APP_NAME>", name)
 	}
 
 	err = os.WriteFile(path+"/app.yaml", kubernetes, 0644)
