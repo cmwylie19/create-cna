@@ -1,13 +1,15 @@
 # Makefile for building the go app + docker image.
 SHELL=bash
-DOCKER_USERNAME=<YOUR_USERNAME>
-IMAGE_REGISTRY=<YOUR_IMAGE_REGISTRY>
+DOCKER_USERNAME=cmwylie19
+IMAGE_REGISTRY=docker.io
 APP_NAME=go-server
 VERSION=0.0.1
 ARCH=amd64
 
 
+
 IMAGE ?= ${IMAGE_REGISTRY}/${DOCKER_USERNAME}/${APP_NAME}:${VERSION}
+IMAGE_REPLACE ?= ${IMAGE_REGISTRY}\/${DOCKER_USERNAME}\/${APP_NAME}:${VERSION}
 
 #---------------------------
 # Build the secret-watcher binary
@@ -34,7 +36,8 @@ push/image:
 # Update Kubernetes manifests with image
 .PHONY: update/manifests
 update/manifests:
-	@cat config/mso/bases/monitoringstack.yaml| sed 's/<monitored_namespace>/$(MONITORED_NAMESPACE)/g;;s/<cluster_id>/$(OCP_CLUSTER_ID)/g' > config/mso/bases/monitoringstack.generated.yaml
+	@cat manifests/k8s/app.yaml | sed 's/<APP_IMAGE>/${IMAGE_REPLACE}/g;' >  manifests/k8s/app.generated.yaml
+	@mv manifests/k8s/app.generated.yaml manifests/k8s/app.yaml
 
 #--------------------------------
 all: compile/app build/image push/image

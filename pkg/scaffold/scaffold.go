@@ -85,14 +85,21 @@ func (s *Scaffold) Create() {
 	if err != nil {
 		s.Logger.Errorf("Error creating main file: %s", err.Error())
 	}
-	s.Logger.Info("Created main file")
+	s.Logger.Info("Created main file.")
 
 	// create servicemonitor
 	err = helpers.CreateServiceMonitor(s.Name+"/manifests/observability", s.Name)
 	if err != nil {
-		s.Logger.Errorf("Error creating servicemonitor")
+		s.Logger.Errorf("Error creating servicemonitor: %s", err.Error())
 	}
-	s.Logger.Info("Created /manifests/observability/servicemonitor.yaml")
+	s.Logger.Info("Created ServiceMonitor.")
+
+	// create Kubernetes manifests
+	err = helpers.CreateKubernetesManifests(s.Name+"/manifests/k8s", s.Controller, s.Port, s.Name)
+	if err != nil {
+		s.Logger.Errorf("Error creating kubernetes manifests: %s", err.Error())
+	}
+	s.Logger.Info("Created Kubernetes Manifests.")
 
 	s.Logger.Print("Scaffolded project successfully!")
 

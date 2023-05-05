@@ -1,26 +1,85 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: null
+  name: <APP_NAME>
+  namespace: <APP_NAME>
+spec: {}
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: cpu-mem-resource-constraint
+  namespace: <APP_NAME>
+spec:
+  limits:
+  - default: # this section defines default limits
+      cpu: "500m"
+      memory: "128Mi"
+    defaultRequest: 
+      cpu: "250m"
+      memory: "64Mi"
+    max: 
+      cpu: "1"
+      memory: "800Mi"
+    min:
+      cpu: "100m"
+      memory: "100Mi"
+    type: Container
+---
 apiVersion: apps/v1
-kind: Deployment
+kind: DaemonSet
 metadata:
   creationTimestamp: null
   labels:
-    app: nginx
-  name: nginx
+    app: <APP_NAME>
+  name: <APP_NAME>
+  namespace: <APP_NAME>
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: nginx
-  strategy: {}
+      app: <APP_NAME>
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: nginx
+        app: <APP_NAME>
     spec:
+      serviceAccountName: <APP_NAME>
       containers:
-      - image: nginx
-        name: nginx
+      - image: <APP_IMAGE>
+        name: <APP_NAME>
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        securityContext:
+          allowPrivilegeEscalation: false
         ports:
-        - containerPort: 8080
-        resources: {}
-status: {}
+        - containerPort: <APP_PORT>
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: <APP_NAME>
+  name: <APP_NAME>
+  namespace: <APP_NAME>
+spec:
+  ports:
+  - port: <APP_PORT>
+    protocol: TCP
+    targetPort: <APP_PORT>
+    name: http
+  selector:
+    app: <APP_NAME>
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  creationTimestamp: null
+  name: <APP_NAME>

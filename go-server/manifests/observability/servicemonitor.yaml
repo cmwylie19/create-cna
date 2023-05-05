@@ -4,7 +4,7 @@ metadata:
   name: go-server
   namespace: go-server
   labels:
-    app: blue
+    app: go-server
 spec:
   selector:
     matchLabels:

@@ -46,7 +46,7 @@ Example:
 	cmd.Flags().StringVar(&Port, "port", "", "Port of the project: 8080")
 	cmd.Flags().BoolVar(&Telemetry, "telemetry", false, "Telemetry of the project: true or false")
 	cmd.Flags().BoolVar(&Metrics, "metrics", false, "Metrics of the project: true or false")
-	cmd.Flags().StringVar(&Controller, "controller", "", "Controller of the project: Deployment (default), DaemonSet, StatefulSet, CronJob, Job, Pod (python-batch)")
+	cmd.Flags().StringVar(&Controller, "controller", "", "Controller of the project: Deployment (default), DaemonSet, CronJob, Job, Pod (python-batch)")
 	cmd.Flags().BoolVar(&Verbose, "verbose", true, "Verbose logs: true (default) or false")
 
 	err := cmd.MarkFlagRequired("name")

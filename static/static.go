@@ -18,3 +18,12 @@ var Main_go []byte
 
 //go:embed manifests/servicemonitor.yaml
 var Servicemonitor []byte
+
+//go:embed manifests/deploy-app.yaml
+var Deploy_app []byte
+
+//go:embed manifests/ds-app.yaml
+var DS_app []byte
+
+//go:embed manifests/po-batch.yaml
+var PO_batch []byte

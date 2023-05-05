@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: null
+  name: go-server
+  namespace: go-server
+spec: {}
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: go-server
+  name: go-server
+spec:
+  containers:
+  - image: docker.io/cmwylie19/go-server:0.0.1
+    name: go-server
+    securityContext:
+      allowPrivilegeEscalation: false
+    # Assumption - it is a batch job; it will take many resources
+    # Assumption - it doesn't have a port, just a one off thing
+    resources:
+      requests:
+        memory: "1Gi"
+        cpu: "1"
+      limits:
+        memory: "3Gi"
+        cpu: "2"
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
