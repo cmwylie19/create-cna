@@ -28,9 +28,11 @@ Usage:
 Example:
   create-ddis-app scaffold --name=go-server --type=go --port=8080 --telemetry=true --metrics=true --controller=deployment
 
-  create-ddis-app scaffold --name=go-server --type=go --port=8080 --telemetry=true --metrics=true --controller=deployment --verbose=false
+  create-ddis-app scaffold --name=migration-job --type=python-batch --port=8080 --telemetry=false --metrics=false --controller=pod --verbose=false
 
-  create-ddis-app scaffold --name=go-server --type=go --port=8080 --telemetry=true --metrics=true --controller=deployment
+  create-ddis-app scaffold --name=salesforce-accounts --type=python --port=8080 --telemetry=true --metrics=true --controller=deployment
+
+  create-ddis-app scaffold --name=image-analyzer --type=rust --port=8080 --telemetry=true --metrics=true --controller=daemonset
 `,
 		Run: func(cmd *cobra.Command, args []string) {
 			// call create scaffold
