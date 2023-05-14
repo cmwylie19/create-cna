@@ -7,13 +7,11 @@ import (
 )
 
 var (
-	Name       string
-	Type       string
-	Port       string
-	Telemetry  bool
-	Metrics    bool
-	Controller string
-	Verbose    bool
+	Name    string
+	Type    string
+	Port    string
+	Metrics bool
+	Verbose bool
 )
 
 func getScaffoldCommand(logger log.Logger) *cobra.Command {
@@ -23,30 +21,24 @@ func getScaffoldCommand(logger log.Logger) *cobra.Command {
 		Long: `Scaffold a new project based on the langauge and type of project you want to create.
 
 Usage:
-  create-ddis-app scaffold --name=<project-name> --type=<project-type> --port=<port> --telemetry=<telemetry> --metrics=<metrics> --controller=<controller>
+  create-cna scaffold --name=<project-name> --type=<project-type> --port=<port> --metrics=<metrics>
 
 Example:
-  create-ddis-app scaffold --name=go-server --type=go --port=8080 --telemetry=true --metrics=true --controller=deployment
+  create-cna scaffold --name=go-server --type=go --port=8080 --metrics=true
 
-  create-ddis-app scaffold --name=migration-job --type=python-batch --port=8080 --telemetry=false --metrics=false --controller=pod --verbose=false
-
-  create-ddis-app scaffold --name=salesforce-accounts --type=python --port=8080 --telemetry=true --metrics=true --controller=deployment
-
-  create-ddis-app scaffold --name=image-analyzer --type=rust --port=8080 --telemetry=true --metrics=true --controller=daemonset
+  create-cna scaffold --name=migration-job --type=go --port=9191 --metrics=false --verbose=false
 `,
 		Run: func(cmd *cobra.Command, args []string) {
 			// call create scaffold
 			var logg log.Logger = &log.Log{Debug: Verbose}
-			scaffold.NewScaffold(Name, Type, Port, Controller, Telemetry, Metrics, Verbose, logg).Create()
+			scaffold.NewScaffold(Name, Type, Port, Metrics, Verbose, logg).Create()
 
 		},
 	}
 	cmd.Flags().StringVar(&Name, "name", "", "Name of the project")
 	cmd.Flags().StringVar(&Type, "type", "", "Type of the project: go, rust, python-batch, python, frontend")
 	cmd.Flags().StringVar(&Port, "port", "", "Port of the project: 8080")
-	cmd.Flags().BoolVar(&Telemetry, "telemetry", false, "Telemetry of the project: true or false")
 	cmd.Flags().BoolVar(&Metrics, "metrics", false, "Metrics of the project: true or false")
-	cmd.Flags().StringVar(&Controller, "controller", "", "Controller of the project: Deployment (default), DaemonSet, CronJob, Job, Pod (python-batch)")
 	cmd.Flags().BoolVar(&Verbose, "verbose", true, "Verbose logs: true (default) or false")
 
 	err := cmd.MarkFlagRequired("name")

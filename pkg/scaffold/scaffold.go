@@ -6,27 +6,23 @@ import (
 )
 
 type Scaffold struct {
-	Type       string `json:"type"`
-	Port       string `json:"port"`
-	Name       string `json:"name"`
-	Telemetry  bool   `json:"telemetry"`
-	Metrics    bool   `json:"metrics"`
-	Controller string `json:"controller"`
-	Verbose    bool   `json:"verbose"`
+	Type    string `json:"type"`
+	Port    string `json:"port"`
+	Name    string `json:"name"`
+	Metrics bool   `json:"metrics"`
+	Verbose bool   `json:"verbose"`
 	// Logging interface
 	Logger log.Logger `json:"logger"`
 }
 
-func NewScaffold(name, type_, port, controller string, telemetry, metrics, verbose bool, logger log.Logger) *Scaffold {
+func NewScaffold(name, type_, port string, metrics, verbose bool, logger log.Logger) *Scaffold {
 	return &Scaffold{
-		Type:       type_,
-		Port:       port,
-		Name:       name,
-		Telemetry:  telemetry,
-		Metrics:    metrics,
-		Controller: controller,
-		Verbose:    verbose,
-		Logger:     logger,
+		Type:    type_,
+		Port:    port,
+		Name:    name,
+		Metrics: metrics,
+		Verbose: verbose,
+		Logger:  logger,
 	}
 }
 
@@ -95,7 +91,7 @@ func (s *Scaffold) Create() {
 	s.Logger.Info("Created ServiceMonitor.")
 
 	// create Kubernetes manifests
-	err = helpers.CreateKubernetesManifests(s.Name+"/manifests/k8s", s.Type, s.Controller, s.Port, s.Name)
+	err = helpers.CreateKubernetesManifests(s.Name+"/manifests/k8s", s.Type, s.Port, s.Name)
 	if err != nil {
 		s.Logger.Errorf("Error creating kubernetes manifests: %s", err.Error())
 	}

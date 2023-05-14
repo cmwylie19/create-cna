@@ -18,18 +18,18 @@ func GetRootCommand(logger log.Logger) *cobra.Command {
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "create-ddis-app",
-	Short: "Simplify, scaffold and automate DDIS repos, applications and tasks.",
-	Long: `A tool to simplify, scaffold, and automate DDIS repositories and applications
+	Use:   "create-cna",
+	Short: "Simplify, scaffold and automate cloud native repos, applications and tasks.",
+	Long: `A tool to simplify, scaffold, and automate cloud native repositories and applications
 allowing users to focus on delivering value while avoiding cumbersome config.
 
-Create DDIS App is a CLI that scaffolds applications
+Create cloud native app is a CLI that scaffolds applications
 based on industry best practices in order to quickly
 deploy cloud native apps instrumented for Kubernetes, 
 metric, and telemetry collection.
 
 usage:
-create-ddis-app help 
+create-cna help 
 `,
 }
 

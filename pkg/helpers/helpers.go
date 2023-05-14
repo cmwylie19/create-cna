@@ -107,7 +107,7 @@ func CreateServiceMonitor(path, name string) error {
 	return err
 }
 
-func CreateKubernetesManifests(path, _type, controller, port, name string) error {
+func CreateKubernetesManifests(path, _type, port, name string) error {
 	var err error
 	var kubernetes []byte
 
@@ -123,17 +123,8 @@ func CreateKubernetesManifests(path, _type, controller, port, name string) error
 		kubernetes = static.Deploy_app
 	}
 
-	// determine type of controller
-	switch strings.ToLower(controller) {
-	case "deployment":
-		// replace <APP_NAME> with name and <APP_PORT> with port
-		kubernetes = ByteReplace(ByteReplace(kubernetes, "<APP_NAME>", name), "<APP_PORT>", port)
-	case "daemonset":
-		// replace <APP_NAME> with name and <APP_PORT> with port
-		kubernetes = ByteReplace(ByteReplace(kubernetes, "<APP_NAME>", name), "<APP_PORT>", port)
-	case "pod":
-		kubernetes = ByteReplace(kubernetes, "<APP_NAME>", name)
-	}
+	// replace <APP_NAME> with name and <APP_PORT> with port
+	kubernetes = ByteReplace(ByteReplace(kubernetes, "<APP_NAME>", name), "<APP_PORT>", port)
 
 	err = os.WriteFile(path+"/app.yaml", kubernetes, 0644)
 	if err != nil {
